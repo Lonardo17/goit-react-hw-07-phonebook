@@ -1,20 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from '../../redux/contacts-actions';
+import { useEffect } from 'react';
+import { phonebookSelector, phonebookOperation } from '../../redux';
 import s from './contacts.module.css';
 
 export default function Contacts() {
-     const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
-  const filter = useSelector(state => state.contacts.filter);
+        const contacts = useSelector(phonebookSelector.getFilterContacts);
+    const dispatch = useDispatch();
 
-  const getVisibleContacts = () =>
-    contacts.filter(({ name }) =>
-      name.toLowerCase().includes(filter.toLowerCase())
-    );
+    useEffect(() => {
+        dispatch(phonebookOperation.fetchContacts());
+    }, [dispatch]);
+
     return (
         <ul className={s.list}>
-                     {getVisibleContacts().map(({ id, name, number }) => {
-                        return (
+                     {contacts.map(({ id, name, number }) => (
                             <li className={s.item} key={id}>
                                 <p className={s.text}>
                                     {name} : {number};
@@ -22,13 +21,12 @@ export default function Contacts() {
                                 <button
                                     className={s.btn}
                                     type="button"
-                                    onClick={() => dispatch(deleteContact(id))}
+                                    onClick={() => dispatch(phonebookOperation.deleteContact(id))}
                                 >
                                     Delete
                                 </button>
                             </li>
-                        );
-                    })}
+                        ))}
                 </ul>
          
   );
