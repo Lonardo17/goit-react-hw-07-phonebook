@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import { phonebookSelector } from '../redux';
-import Filter from './filter/Filter';
-import Phonebook from './phonebook/Phonebook'
-import Contacts from './contacts/Contacts';
+import Filter from './Filter/Filter';
+import Phonebook from './Phonebook/Phonebook'
+import Contacts from './Contacts/Contacts';
 
 export function App() {
     const loading = useSelector(phonebookSelector.getLoading);
